@@ -2,13 +2,7 @@
 
 Unity 6.3 LTS · 2D · pixel art · tamaño de pantalla 320 x 572 (celular), ventana de PC 480 x 858.
 
-## Instalación (primera vez)
-1. Unity Hub → **New project** → plantilla **Universal 2D** → nombre `JuegoPlantas`.
-2. Copia en la carpeta del proyecto el contenido de este repositorio (`Assets/`, `Arte_Original/`, `Herramientas/`, `.gitignore`, `.gitattributes`). Si pregunta por combinar carpetas, acepta.
-3. Vuelve a Unity y espera a que termine de importar.
-4. Menú superior: **Plantas → 1. Construir todo (primera vez)**.
-5. En la pestaña **Game**: lista de proporciones → **+** → *Fixed Resolution* `320 x 572`.
-6. Abre `Assets/Scenes/Menu` y presiona **Play**.
+
 
 ## Qué hay
 | Escena | Qué hace |
