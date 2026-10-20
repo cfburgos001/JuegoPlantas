@@ -65,8 +65,11 @@ public class DiaPlanta : MonoBehaviour
         panelFin.SetActive(false);
 
         textoDia.text = "Día " + ConfigJuego.DiaActual;
-        botonReintentar.onClick.AddListener(() => SceneManager.LoadScene("Dia1"));
-        botonMenu.onClick.AddListener(() => SceneManager.LoadScene("Menu"));
+        botonReintentar.onClick.AddListener(() => {         //Meti un reinicio de puntos al resetear, casi jodo el codigo :v--will
+            GameData.ResetearDatos();
+            SceneManager.LoadScene("Dia1");
+        });
+        botonMenu.onClick.AddListener(() => SceneManager.LoadScene("EscenaNoche")); //Voy a enrutar esta boton para que pase al game de noche--will
 
         MostrarPlanta(estadoInicial);
         StartCoroutine(RutinaDia());
@@ -92,8 +95,12 @@ public class DiaPlanta : MonoBehaviour
             TipoHerramienta.Pala,
             Cargador.CargarSprite("Dia/BolsaDeTierra"),
             Cargador.CargarAnimacion("Dia/Anim/PalaAnima2"), 8f, posPala,
-            () => MostrarPlanta(estado1));
-
+            () => {
+                MostrarPlanta(estado1);
+                // Suma los puntos por el cambio de la tierra--will
+                GameData.TierraCambiada = true;
+                GameData.PuntajeTotal += 100;
+            });
         yield return new WaitForSeconds(pausaEntreNecesidades);
 
         // Paso 2: agua -> regadera (la animacion se repite dos veces)
@@ -101,10 +108,12 @@ public class DiaPlanta : MonoBehaviour
             TipoHerramienta.Regadera,
             Cargador.CargarSprite("Dia/GotaAgua"),
             Repetir(Cargador.CargarAnimacion("Dia/Anim/AnimaRegadera"), 2), 6f, posRegadera,
-            () =>
-            {
+            () => {
                 MostrarPlanta(estado2);
                 animadorPlanta.Reproducir(estado2Animado, 3f, true);
+                // Lo mismo de suma de puntos por el agua-will
+                GameData.PlantaRegada = true;
+                GameData.PuntajeTotal += 100;
             });
 
         yield return new WaitForSeconds(2f);
@@ -157,6 +166,9 @@ public class DiaPlanta : MonoBehaviour
 
     public void UsarHerramienta(TipoHerramienta herramienta)
     {
+        //Esto lo agregue para contar los clics--will
+        GameData.ClicksTotales++;
+
         if (!esperandoHerramienta) return;
 
         if (herramienta == herramientaPedida)
