@@ -28,6 +28,8 @@ public class HerramientaArrastrable : MonoBehaviour, IBeginDragHandler, IDragHan
 
     public void OnBeginDrag(PointerEventData evento)
     {
+        if (MenuPausa.EnPausa) return; // con el juego en pausa no se pueden usar herramientas
+
         GameObject go = new GameObject("Herramienta (arrastre)", typeof(RectTransform), typeof(Image));
         copia = go.GetComponent<RectTransform>();
         copia.SetParent(pantalla, false);
@@ -46,15 +48,18 @@ public class HerramientaArrastrable : MonoBehaviour, IBeginDragHandler, IDragHan
 
     public void OnDrag(PointerEventData evento)
     {
-        Mover(evento);
+        if (copia != null) Mover(evento);
     }
 
     public void OnEndDrag(PointerEventData evento)
     {
-        bool sobrePlanta = dia != null &&
+        if (copia == null) return; // el arrastre nunca empezo (estaba en pausa)
+
+        bool sobrePlanta = dia != null && !MenuPausa.EnPausa &&
             RectTransformUtility.RectangleContainsScreenPoint(dia.zonaUso, evento.position, null);
 
-        if (copia != null) Destroy(copia.gameObject);
+        Destroy(copia.gameObject);
+        copia = null;
         imagen.color = Color.white;
 
         if (sobrePlanta) dia.UsarHerramienta(tipo);

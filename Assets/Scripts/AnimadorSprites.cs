@@ -12,6 +12,8 @@ public class AnimadorSprites : MonoBehaviour
     public string carpetaAlIniciar = "";
     public float fps = 8f;
     public bool repetirAlIniciar = true;
+    [Tooltip("Marcar si la animacion debe seguir moviendose aunque el juego este en pausa")]
+    public bool usarTiempoReal = false;
 
     Image imagen;
     Sprite[] cuadros;
@@ -58,7 +60,7 @@ public class AnimadorSprites : MonoBehaviour
     {
         if (!activo) return;
 
-        tiempo += Time.deltaTime;
+        tiempo += usarTiempoReal ? Time.unscaledDeltaTime : Time.deltaTime;
         float duracionCuadro = 1f / Mathf.Max(fps, 0.01f);
 
         while (tiempo >= duracionCuadro)

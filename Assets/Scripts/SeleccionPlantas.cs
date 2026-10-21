@@ -30,6 +30,7 @@ public class SeleccionPlantas : MonoBehaviour
     void Seleccionar(int numero)
     {
         seleccionada = numero;
+        Sonidos.Reproducir("Seleccion 2", 0.8f, 1.0f);
         Refrescar();
     }
 
@@ -48,11 +49,14 @@ public class SeleccionPlantas : MonoBehaviour
     {
         ConfigJuego.PlantaElegida = seleccionada;
         ConfigJuego.DiaActual = 1;
+        GameData.ResetearDatos(); // partida nueva: puntajes y cuidados en cero
+        Sonidos.Reproducir("Iniciar nivel", 1f, 1.6f);
         SceneManager.LoadScene("Dia1");
     }
 
     void Volver()
     {
+        Sonidos.Reproducir("Seleccion 1", 0.9f, 1.0f);
         SceneManager.LoadScene("Menu");
     }
 }

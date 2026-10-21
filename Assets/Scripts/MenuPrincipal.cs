@@ -16,6 +16,8 @@ public class MenuPrincipal : MonoBehaviour
 
     void Jugar()
     {
+        Sonidos.Reproducir("Seleccion 1", 0.9f, 1.2f);
+        GameData.ResetearDatos(); // empieza una partida nueva
         SceneManager.LoadScene("SeleccionPlanta");
     }
 
